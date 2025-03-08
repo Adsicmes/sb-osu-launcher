@@ -1,5 +1,7 @@
 [tools]
 node = "lts"
+python = "3.11"
 
 [env]
 _.path = ['{{config_root}}/node_modules/.bin']
+_.python.venv = { path = ".venv", create = true }

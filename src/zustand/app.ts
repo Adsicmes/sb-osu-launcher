@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { persist } from 'zustand/middleware'
 import { fetch } from '@tauri-apps/plugin-http';
 
+
 // 存储上一次获取的网络背景图urls
 interface BgCachesState {
     current_bg: number | null;
@@ -117,3 +118,46 @@ export const useBgCaches = create<BgCachesState>()(
         }
     )
 )
+
+export interface Server {
+    name: string;
+    website_url: string;
+    credential_url: string;
+    devserver_url: string;
+}
+
+export const ServerList: Record<string, Server> = {
+    bancho: {
+        name: "bancho",
+        website_url: "https://osu.ppy.sh",
+        credential_url: "ppy.sh",
+        devserver_url: "",
+    },
+    sb: {
+        name: "sb",
+        website_url: "https://osu.ppy.sb",
+        credential_url: "ppy.sb",
+        devserver_url: "ppy.sb",
+    },
+}
+
+interface ServerSwitcherState {
+    currentServer: Server;
+    setCurrentServer: (server: Server) => void;
+}
+
+export const useServerSwitcher = create<ServerSwitcherState>()(
+    persist(
+        (set) => ({
+            currentServer: ServerList.bancho,
+            setCurrentServer: (server: Server) => set({ currentServer: server }),
+        }),
+        {
+            name: "server-switcher-storage",
+            partialize: (state) => ({
+                currentServer: state.currentServer,
+            }),
+        }
+    )
+)
+

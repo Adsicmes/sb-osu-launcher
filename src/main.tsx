@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import AppLayout from "./pages/AppLayout";
 import { HomePage } from "./pages/HomePage";
 import { SettingPage } from "./pages/SettingPage";
+import './i18n';
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
