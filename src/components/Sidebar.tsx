@@ -1,4 +1,4 @@
-import { Box, VStack, IconButton, Image, Separator, Flex, Button, useDisclosure } from "@chakra-ui/react";
+import { Box, VStack, IconButton, Image, Separator, Flex, Button } from "@chakra-ui/react";
 import { Home, Settings } from "lucide-react";
 import { Tooltip } from "./ui/tooltip";
 import { Link } from "react-router";

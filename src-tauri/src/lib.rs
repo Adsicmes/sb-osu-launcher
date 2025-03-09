@@ -1,12 +1,14 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 mod profile_watcher;
 mod launcher;
+mod osu_auth;
 
 use base64::{engine::general_purpose, Engine as _};
 use ini::Ini;
 use serde_json::{json, Value};
 use std::fs;
 use std::path::{Path, PathBuf};
+use tauri::Manager;
 use std::process::Command;
 use tauri_plugin_http::reqwest;
 use whoami;
@@ -14,6 +16,7 @@ use winreg::enums::*;
 use winreg::RegKey;
 use profile_watcher::{WatcherState, get_osu_root_path_profile_watcher, trigger_sync_profile_watcher, set_osu_root_path_profile_watcher, restore_profile_to_osu_dir};
 use launcher::launch_osu;
+use osu_auth::set_osu_server_credentials;
 
 fn resolve_shortcut_powershell(shortcut_path: &Path) -> Result<PathBuf, String> {
     #[cfg(target_os = "windows")]
@@ -262,6 +265,15 @@ pub fn run() {
 
     let mut builder = tauri::Builder::default()
         .manage(WatcherState::new())
+        .setup(|app| {
+            let salt_path = app
+                .path()
+                .app_local_data_dir()
+                .expect("could not resolve app local data path")
+                .join("salt.txt");
+            app.handle().plugin(tauri_plugin_stronghold::Builder::with_argon2(&salt_path).build())?;
+            Ok(())
+        })
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_window_state::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
@@ -287,7 +299,8 @@ pub fn run() {
             get_osu_root_path_profile_watcher,
             trigger_sync_profile_watcher,
             restore_profile_to_osu_dir,
-            launch_osu
+            launch_osu,
+            set_osu_server_credentials,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

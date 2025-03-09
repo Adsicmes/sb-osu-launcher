@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Server, ServerList } from "./app";
+import { Server, ServerList } from "./osu-auth";
 import { persist } from "zustand/middleware";
 import { listen } from "@tauri-apps/api/event";
 import { BaseDirectory } from "@tauri-apps/plugin-fs";
@@ -89,6 +89,6 @@ interface FileChangeEventPayload {
     message: string;
 }
 
-listen<FileChangeEventPayload>("profile-copied", async (event) => {
+listen<FileChangeEventPayload>("profile-copied", async (_event) => {
     await useOsuClientProfile.getState().updateProfilesFromDir();
 });
