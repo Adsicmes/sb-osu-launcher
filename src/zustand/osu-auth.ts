@@ -80,9 +80,8 @@ export const useOsuAuth = create<OsuAuthState>()(
             clearAllProfiles: () => set({ profiles: {} }),
 
             login_current_profile: async () => {
-                if (get().current_profile) {
-                    const profile = get().current_profile as unknown as OsuAuthProfile;
-                    
+                const currentProfile = get().current_profile;
+                if (currentProfile) {
                     const conf = useConf.getState();
                     
                     const config_path = await join(conf.osuRootDir, `osu!.${await invoke("get_system_username")}.cfg`)
@@ -91,10 +90,10 @@ export const useOsuAuth = create<OsuAuthState>()(
                     OsuUtil.setServerCredentials(
                         config_path,
                         {
-                            username: profile.profile_username,
-                            plain_password: profile.profile_password,
+                            username: currentProfile.profile_username,
+                            plain_password: currentProfile.profile_password,
                         },
-                        profile.profile_server
+                        currentProfile.profile_server
                     );
                 }
             },

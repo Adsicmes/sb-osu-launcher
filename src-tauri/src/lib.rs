@@ -1,5 +1,4 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-mod profile_watcher;
 mod launcher;
 mod osu_auth;
 
@@ -14,7 +13,6 @@ use tauri_plugin_http::reqwest;
 use whoami;
 use winreg::enums::*;
 use winreg::RegKey;
-use profile_watcher::{WatcherState, get_osu_root_path_profile_watcher, trigger_sync_profile_watcher, set_osu_root_path_profile_watcher, restore_profile_to_osu_dir};
 use launcher::launch_osu;
 use osu_auth::set_osu_server_credentials;
 
@@ -264,7 +262,6 @@ pub fn run() {
     let devtools = tauri_plugin_devtools::init();
 
     let mut builder = tauri::Builder::default()
-        .manage(WatcherState::new())
         .setup(|app| {
             let salt_path = app
                 .path()
@@ -295,10 +292,6 @@ pub fn run() {
             read_osu_config,
             get_system_username,
             get_valid_songs_path,
-            set_osu_root_path_profile_watcher,
-            get_osu_root_path_profile_watcher,
-            trigger_sync_profile_watcher,
-            restore_profile_to_osu_dir,
             launch_osu,
             set_osu_server_credentials,
         ])
