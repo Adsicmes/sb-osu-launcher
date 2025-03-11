@@ -1,22 +1,57 @@
-import {Box, HStack, IconButton, Spacer} from "@chakra-ui/react";
+import { Box, HStack, IconButton, Spacer, Image } from "@chakra-ui/react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import {Minus, X} from "lucide-react";
+import { Minus, X } from "lucide-react";
+import { SegmentedControl } from "./ui/segmented-control";
+import { ServerList, useServerSwitcher } from "@/zustand/osu-auth";
+import { logo_sb } from "@/consts";
+import { logo_osu } from "@/consts";
 
 export default function TitleBar() {
-    return(
+    const serverSwitcher = useServerSwitcher();
+    return (
         <HStack data-tauri-drag-region gap={0} w={"full"}>
+            <SegmentedControl
+                bg={"rgba(0, 0, 0, 0.1)"}
+                paddingLeft={2}
+                paddingTop={2}
+                value={serverSwitcher.currentServer.name}
+                items={[
+                    {
+                        label: <Image src={logo_osu} w={"26px"} h={"26px"} />,
+                        value: ServerList.bancho.name,
+                    },
+                    {
+                        label: <Image src={logo_sb} w={"26px"} h={"26px"} />,
+                        value: ServerList.sb.name,
+                    },
+                ]}
+                onValueChange={(e) => {
+                    const newServer = ServerList[e.value as keyof typeof ServerList];
+                    serverSwitcher.setCurrentServer(newServer);
+                }}
+            />
             <Spacer data-tauri-drag-region></Spacer>
-            <IconButton size={"sm"} variant={"ghost"} rounded={"none"} onClick={async () => {
-                await getCurrentWindow().minimize();
-            }}>
-                <Minus color="#ffffff"/>
+            <IconButton
+                size={"sm"}
+                variant={"ghost"}
+                rounded={"none"}
+                onClick={async () => {
+                    await getCurrentWindow().minimize();
+                }}
+            >
+                <Minus color="#ffffff" />
             </IconButton>
-            <IconButton size={"sm"} variant={"ghost"} rounded={"none"} onClick={async() => {
-                await getCurrentWindow().close();
-            }}>
-                <X color="#ffffff"/>
+            <IconButton
+                size={"sm"}
+                variant={"ghost"}
+                rounded={"none"}
+                onClick={async () => {
+                    await getCurrentWindow().close();
+                }}
+            >
+                <X color="#ffffff" />
             </IconButton>
             <Box width={"4px"}></Box>
         </HStack>
-    )
+    );
 }

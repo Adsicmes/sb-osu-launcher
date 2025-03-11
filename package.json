@@ -1,7 +1,7 @@
 {
   "name": "sb-osu-launcher",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -23,6 +23,7 @@
     "@tauri-apps/plugin-window-state": "~2",
     "@types/crypto-js": "^4.2.2",
     "@types/uuid": "^10.0.0",
+    "@uiw/react-iframe": "^1.0.3",
     "colorthief": "^2.6.0",
     "crypto-js": "^4.2.0",
     "i18next": "^24.2.2",

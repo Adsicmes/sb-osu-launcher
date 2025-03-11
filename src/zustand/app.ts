@@ -2,6 +2,7 @@ import { SeasonalBackgrounds } from "@/types/ppy-sh";
 import { create } from "zustand";
 import { persist } from 'zustand/middleware'
 import { fetch } from '@tauri-apps/plugin-http';
+import { app_bg_default } from "@/consts";
 
 
 // 存储上一次获取的网络背景图urls
@@ -36,7 +37,7 @@ export const useBgCaches = create<BgCachesState>()(
         (set, get) => ({
             current_bg: null,
             bgs: null,
-            defaultBg: "/bg-default.png",
+            defaultBg: app_bg_default,
 
             is_Loading: false,
             error: null,
@@ -119,3 +120,22 @@ export const useBgCaches = create<BgCachesState>()(
     )
 )
 
+interface DevToolsState {
+    debugMode: boolean;
+    setDebugMode: (debugMode: boolean) => void;
+}
+
+export const useDevTools = create<DevToolsState>()(
+    persist(
+        (set) => ({
+            debugMode: false,
+            setDebugMode: (debugMode: boolean) => set({ debugMode }),
+        }),
+        {
+            name: "dev-tools-storage",
+            partialize: (state) => ({
+                debugMode: state.debugMode,
+            }),
+        }
+    )
+)

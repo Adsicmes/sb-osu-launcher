@@ -1,7 +1,6 @@
 import {
     VStack,
     Text,
-    Presence,
     Box,
     Image,
     Show,
@@ -24,6 +23,7 @@ import { Portal } from "@chakra-ui/react";
 import { Button, Input } from "@chakra-ui/react";
 import { v4 as uuidv4 } from "uuid";
 import { Plus, Trash } from "lucide-react";
+import { logo_osu, logo_sb } from "@/consts";
 
 export function ServerSwitcher() {
     const serverSwitcher = useServerSwitcher();
@@ -116,7 +116,7 @@ export function ServerSwitcher() {
             <Dialog.Trigger asChild>
                 <Box cursor={"pointer"} userSelect={"none"}>
                     <Show when={serverSwitcher.currentServer.name === ServerList.bancho.name}>
-                        <Image src="/Osu!_Logo_2016.svg" w={"64px"} h={"64px"} />
+                        <Image src={logo_osu} w={"64px"} h={"64px"} />
                     </Show>
                     <Show when={serverSwitcher.currentServer.name === ServerList.sb.name}>
                         <Image src="/sb-256x256.png" w={"64px"} h={"64px"} />
@@ -141,11 +141,11 @@ export function ServerSwitcher() {
                                     value={serverSwitcher.currentServer.name}
                                     items={[
                                         {
-                                            label: <Image src="/Osu!_Logo_2016.svg" w={"26px"} h={"26px"} />,
+                                            label: <Image src={logo_osu} w={"26px"} h={"26px"} />,
                                             value: ServerList.bancho.name,
                                         },
                                         {
-                                            label: <Image src="/sb-256x256.png" w={"26px"} h={"26px"} />,
+                                            label: <Image src={logo_sb} w={"26px"} h={"26px"} />,
                                             value: ServerList.sb.name,
                                         },
                                     ]}

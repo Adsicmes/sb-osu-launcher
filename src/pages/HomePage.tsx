@@ -7,22 +7,11 @@ import {
     Button,
     Presence,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { invoke } from "@tauri-apps/api/core";
-import { useConf } from "@/zustand/conf";
 import { LoginAvatar } from "@/components/LoginAvatar";
-import { ServerSwitcher } from "@/components/ServerSwitcher";
 import { useLaunchGame } from "@/hooks/useLaunchGame";
 
 export function HomePage() {
-    const conf = useConf();
     const { launchGame } = useLaunchGame();
-
-    useEffect(() => {
-        invoke("set_osu_root_path_profile_watcher", {
-            path: "D:\\UserFiles\\Games\\OSU\\stable",
-        });
-    }, []);
 
     return (
         <Presence
@@ -42,8 +31,6 @@ export function HomePage() {
 
                 <HStack w={"full"} gap={4}>
                     <Spacer />
-
-                    <ServerSwitcher />
 
                     <Button
                         w={"168px"}
