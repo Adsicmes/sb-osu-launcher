@@ -2,6 +2,8 @@
 
 sb osu launcher 是一个为 osu! 的 sb服玩家设计的官私服切换工具，永远不考虑其他私服的兼容
 
+(介意osu极致体验的请勿使用，不保证性能)
+
 软件名体现了我对osu的评价
 
 # 功能列表
@@ -19,6 +21,7 @@ sb osu launcher 是一个为 osu! 的 sb服玩家设计的官私服切换工具�
 - [ ] Beatmap batch downloader
 - [ ] 整合tosu
 - [ ] 视奸榜
+- [ ] 成绩记录
 
 
 ## 贡献指南

@@ -1,13 +1,19 @@
-import { Box, HStack, IconButton, Spacer, Image } from "@chakra-ui/react";
+import { Box, HStack, IconButton, Spacer, Image, Text, Show } from "@chakra-ui/react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
 import { Minus, X } from "lucide-react";
 import { SegmentedControl } from "./ui/segmented-control";
 import { ServerList, useServerSwitcher } from "@/zustand/osu-auth";
 import { logo_sb } from "@/consts";
 import { logo_osu } from "@/consts";
+import { useOsuAuth } from "@/zustand/osu-auth";
+import { useDevTools } from "@/zustand/app";
+
 
 export default function TitleBar() {
     const serverSwitcher = useServerSwitcher();
+    const osuAuth = useOsuAuth();
+    const devTools = useDevTools();
+
     return (
         <HStack data-tauri-drag-region gap={0} w={"full"}>
             <SegmentedControl
@@ -28,8 +34,14 @@ export default function TitleBar() {
                 onValueChange={(e) => {
                     const newServer = ServerList[e.value as keyof typeof ServerList];
                     serverSwitcher.setCurrentServer(newServer);
+                    osuAuth.setCurrentProfile(osuAuth.latest_profile_for_servers[newServer.name]);
                 }}
             />
+
+            <Show when={devTools.debugMode}>
+                <Text fontFamily={"torus"}>{osuAuth.current_profile?.profile_username}</Text>
+            </Show>
+
             <Spacer data-tauri-drag-region></Spacer>
             <IconButton
                 size={"sm"}

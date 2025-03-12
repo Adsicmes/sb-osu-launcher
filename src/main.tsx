@@ -7,6 +7,8 @@ import { HomePage } from "./pages/HomePage";
 import { SettingPage } from "./pages/SettingPage";
 import './i18n';
 
+import '@/fonts.css';
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
         <Provider>

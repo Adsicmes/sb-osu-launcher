@@ -11,13 +11,15 @@ import {
     GridItem,
     IconButton,
     Box,
+    Flex,
 } from "@chakra-ui/react";
-import { AppWindow, Wrench, Folder, MonitorCog } from "lucide-react";
+import { AppWindow, Wrench, Folder, MonitorCog, Info } from "lucide-react";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useConf } from "@/zustand/conf";
 import { open } from "@tauri-apps/plugin-dialog";
 import { useBgCaches, useDevTools } from "@/zustand/app";
 import { Switch } from "@/components/ui/switch";
+
 export function SettingPage() {
 
     return (
@@ -182,10 +184,19 @@ const AppTabContent = () => {
                 <GridItem colSpan={{ base: 1, md: 2 }}>
                     <Heading>主题</Heading>
                 </GridItem>
-                <GridItem colSpan={{ base: 1, md: 2 }}>
-                    <Text>软件背景来自osu!bancho的seasonal背景</Text>
-                </GridItem>
-                <Text>轮换时间 (秒)</Text>
+                
+                <Text>开启来自osu!bancho的seasonal背景轮换</Text>
+                <Switch
+                    checked={bgCaches.autoRotation}
+                    onCheckedChange={() => bgCaches.toggleAutoRotate()}
+                />
+
+                <Flex alignItems={"center"} gap={2}>
+                    <Text>轮换时间 (秒)</Text>
+                    <Tooltip content="该选项建议设置10s以上，除非你有与bancho的良好网络环境。因为来自bancho的seasonal背景没有被主动缓存到本地，导致每一次关闭软件重启后第一次获取图片都会从网络获取" openDelay={100} closeDelay={100}>
+                        <Info size={16} />
+                    </Tooltip>
+                </Flex>
                 <Input
                     type="number"
                     variant={"subtle"}
